@@ -1,7 +1,7 @@
-const allowedOrigin = Deno.env.get('CONTACT_ALLOWED_ORIGIN') || '';
+const allowedOrigin = Deno.env.get('CONTACT_ALLOWED_ORIGIN') || 'https://heaven0318.github.io';
 const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
-const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
-const rateSecret = Deno.env.get('CONTACT_RATE_SECRET') || '';
+const serviceKey = Deno.env.get('SUPABASE_SECRET_KEY') || Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
+const rateSecret = Deno.env.get('CONTACT_RATE_SECRET') || Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
 
 function reply(status: number, body: Record<string, unknown>, origin = '') {
   const headers: Record<string, string> = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' };
@@ -52,7 +52,7 @@ Deno.serve(async (request) => {
   try {
     const saved = await fetch(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/rpc/submit_contact_message`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', apikey: serviceKey, Authorization: `Bearer ${serviceKey}` },
+      headers: { 'Content-Type': 'application/json', apikey: serviceKey },
       body: JSON.stringify({ p_name: name, p_email: email, p_subject: subject, p_message: message, p_rate_key: rateKey, p_fingerprint: fingerprint })
     });
     const result = await saved.json();

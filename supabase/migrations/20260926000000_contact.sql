@@ -12,6 +12,7 @@ create table public.contact_messages (
   is_read boolean not null default false,
   is_archived boolean not null default false
 );
+create index contact_messages_created_at_idx on public.contact_messages (created_at desc);
 
 create table public.contact_rate_limits (
   key text primary key,
@@ -33,6 +34,8 @@ revoke all on public.owner_accounts, public.contact_messages, public.contact_rat
 grant select on public.owner_accounts to authenticated;
 grant select, delete on public.contact_messages to authenticated;
 grant update (is_read, is_archived) on public.contact_messages to authenticated;
+grant select, insert on public.contact_messages to service_role;
+grant select, insert, update on public.contact_rate_limits, public.contact_fingerprints to service_role;
 
 create policy "owner can identify self" on public.owner_accounts for select to authenticated
 using (id = (select auth.uid()));
@@ -47,7 +50,7 @@ using (exists (select 1 from public.owner_accounts where id = (select auth.uid()
 create or replace function public.submit_contact_message(
   p_name text, p_email text, p_subject text, p_message text,
   p_rate_key text, p_fingerprint text
-) returns uuid language plpgsql security definer set search_path = '' as $$
+) returns uuid language plpgsql security invoker set search_path = '' as $$
 declare
   current_rate public.contact_rate_limits%rowtype;
   previous_fingerprint timestamptz;

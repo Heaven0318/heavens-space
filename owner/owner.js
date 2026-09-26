@@ -3,6 +3,8 @@
   const base = (config.supabaseUrl || '').replace(/\/$/, '');
   const key = config.supabasePublishableKey || '';
   const loginPanel = document.getElementById('login-panel');
+  const passwordPanel = document.getElementById('password-panel');
+  const resetForm = document.getElementById('reset-form');
   const inboxPanel = document.getElementById('inbox-panel');
   const loginStatus = document.getElementById('login-status');
   const inboxStatus = document.getElementById('inbox-status');
@@ -16,10 +18,20 @@
     messages = [];
     sessionStorage.removeItem('heavensOwnerSession');
     loginPanel.hidden = false;
+    passwordPanel.hidden = true;
+    resetForm.hidden = true;
     inboxPanel.hidden = true;
     logoutButton.hidden = true;
     list.replaceChildren();
     loginStatus.textContent = message;
+  }
+  function showPasswordSetup(message = '') {
+    loginPanel.hidden = true;
+    inboxPanel.hidden = true;
+    passwordPanel.hidden = false;
+    resetForm.hidden = true;
+    logoutButton.hidden = true;
+    document.getElementById('password-status').textContent = message;
   }
   function headers() { return { apikey: key, Authorization: `Bearer ${session.access_token}` }; }
   async function api(path, options = {}) {
@@ -47,6 +59,8 @@
     const rows = await api('/rest/v1/owner_accounts?select=id&limit=1');
     if (!rows.length) { showLogin('This account is not authorized as an owner.'); return false; }
     loginPanel.hidden = true;
+    passwordPanel.hidden = true;
+    resetForm.hidden = true;
     inboxPanel.hidden = false;
     logoutButton.hidden = false;
     return true;
@@ -111,13 +125,64 @@
         method: 'POST', headers: { apikey: key, 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: document.getElementById('login-email').value.trim(), password: document.getElementById('login-password').value })
       });
-      if (!response.ok) throw new Error('Invalid credentials or access unavailable.');
+      if (!response.ok) {
+        const detail = await response.json().catch(() => ({}));
+        const authError = detail.msg || detail.message || detail.error_description || detail.error;
+        throw new Error(authError || 'Sign-in failed. Check your email and password, or use Forgot Password.');
+      }
       const data = await response.json();
       session = { access_token: data.access_token, refresh_token: data.refresh_token, expires_at: Date.now() + data.expires_in * 1000 };
       sessionStorage.setItem('heavensOwnerSession', JSON.stringify(session));
       document.getElementById('login-password').value = '';
       if (await verifyOwner()) await loadMessages();
     } catch (error) { if (session) showLogin(error.message); else loginStatus.textContent = error.message; }
+    finally { button.disabled = false; }
+  });
+  document.getElementById('forgot-password').addEventListener('click', () => {
+    resetForm.hidden = !resetForm.hidden;
+    if (!resetForm.hidden) document.getElementById('reset-email').value = document.getElementById('login-email').value.trim();
+    document.getElementById('reset-status').textContent = '';
+  });
+  resetForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = resetForm.querySelector('button'); button.disabled = true;
+    const status = document.getElementById('reset-status'); status.textContent = 'Sending reset link…';
+    try {
+      const redirect = `${window.location.origin}${window.location.pathname}`;
+      const response = await fetch(`${base}/auth/v1/recover?redirect_to=${encodeURIComponent(redirect)}`, {
+        method: 'POST', headers: { apikey: key, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: document.getElementById('reset-email').value.trim() })
+      });
+      if (!response.ok) throw new Error('Could not send the reset email. Check the Supabase redirect URL settings and try again.');
+      status.textContent = 'If that account can receive a reset link, an email is on its way. Open it on this device to choose a new password.';
+    } catch (error) { status.textContent = error.message; }
+    finally { button.disabled = false; }
+  });
+  document.getElementById('password-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const password = document.getElementById('new-password').value;
+    const confirm = document.getElementById('confirm-password').value;
+    const status = document.getElementById('password-status');
+    if (password.length < 8) { status.textContent = 'Use at least 8 characters.'; return; }
+    if (password !== confirm) { status.textContent = 'The passwords do not match.'; return; }
+    const button = event.currentTarget.querySelector('button'); button.disabled = true; status.textContent = 'Saving password…';
+    try {
+      const response = await fetch(`${base}/auth/v1/user`, {
+        method: 'PUT', headers: { apikey: key, Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      if (!response.ok) {
+        const detail = await response.json().catch(() => ({}));
+        throw new Error(detail.msg || detail.message || detail.error_description || detail.error || 'Could not update the password. The invite/reset link may have expired; request a new one.');
+      }
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-password').value = '';
+      session.expires_at = Date.now() + 3600000;
+      sessionStorage.setItem('heavensOwnerSession', JSON.stringify(session));
+      history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+      status.textContent = 'Password saved. Opening your inbox…';
+      if (await verifyOwner()) await loadMessages();
+    } catch (error) { status.textContent = error.message; }
     finally { button.disabled = false; }
   });
   logoutButton.addEventListener('click', async () => {
@@ -127,7 +192,17 @@
   document.getElementById('search').addEventListener('input', render);
   document.getElementById('filter').addEventListener('change', render);
   document.getElementById('refresh').addEventListener('click', loadMessages);
-  try { session = JSON.parse(sessionStorage.getItem('heavensOwnerSession') || 'null'); } catch { session = null; }
-  if (session && base && key) verifyOwner().then((allowed) => { if (allowed) loadMessages(); }).catch(() => showLogin('Please sign in again.'));
-  else showLogin(!base || !key ? 'Supabase is not configured yet.' : '');
+  const authParams = new URLSearchParams(window.location.hash.slice(1));
+  const authType = authParams.get('type');
+  const hashAccessToken = authParams.get('access_token');
+  const hashRefreshToken = authParams.get('refresh_token');
+  if (hashAccessToken && hashRefreshToken && ['invite', 'recovery', 'signup', 'email'].includes(authType)) {
+    session = { access_token: hashAccessToken, refresh_token: hashRefreshToken, expires_at: Date.now() + Number(authParams.get('expires_in') || 3600) * 1000 };
+    sessionStorage.setItem('heavensOwnerSession', JSON.stringify(session));
+    showPasswordSetup('Set a password to finish activating your owner account.');
+  } else {
+    try { session = JSON.parse(sessionStorage.getItem('heavensOwnerSession') || 'null'); } catch { session = null; }
+  }
+  if (!hashAccessToken && session && base && key) verifyOwner().then((allowed) => { if (allowed) loadMessages(); }).catch(() => showLogin('Please sign in again.'));
+  else if (!hashAccessToken) showLogin(!base || !key ? 'Supabase is not configured yet.' : '');
 })();

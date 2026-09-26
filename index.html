@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heaven's Space — Student Developer</title>
+  <meta name="description" content="Heaven's Space is Cedrick's personal digital space for building ideas into reality.">
+  <meta property="og:title" content="Heaven's Space — Student Developer">
+  <meta property="og:description" content="Building ideas into reality. Explore Cedrick's work, experiments, and digital space.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="top">
+  <div class="cursor" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Heaven's Space home">HEAVEN'S SPACE</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#work">WORK</a><a href="#about">ABOUT</a><a href="#contact">CONTACT</a>
+      <button class="theme-toggle" type="button" aria-label="Switch theme"><span>BLACK</span><i></i><span>WHITE</span></button>
+    </nav>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">MENU</button>
+  </header>
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    <a href="#work">WORK</a><a href="#about">ABOUT</a><a href="#contact">CONTACT</a>
+    <button class="theme-toggle" type="button"><span>BLACK</span><i></i><span>WHITE</span></button>
+  </div>
+
+  <main>
+    <section class="hero entrance" aria-labelledby="hero-title">
+      <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+      <p class="eyebrow hero-kicker">A PERSONAL DIGITAL SPACE / 2026</p>
+      <h1 id="hero-title">HEAVEN'S<br><em>SPACE</em></h1>
+      <div class="hero-bottom">
+        <div><p class="tagline">Building Ideas into Reality</p><p class="role">Student Developer</p></div>
+        <p class="personal-line">I create things<br>based on my mood.</p>
+      </div>
+      <a class="circle-link" href="#intro" aria-label="Explore Heaven's Space">EXPLORE<br>MY WORK <span>↘</span></a>
+      <button class="skip-entrance" type="button">SKIP INTRO</button>
+    </section>
+
+    <section class="intro section" id="intro">
+      <p class="eyebrow">01 / THE SPACE</p>
+      <div class="intro-grid reveal"><h2>A LITTLE<br><em>ABOUT</em><br>MY SPACE</h2><div class="intro-copy"><p>This is my corner of the internet — a place to build, experiment, and turn ideas into working websites.</p><p>Some things start as a passing thought. Some become a whole world. You’re invited to look around.</p><a class="text-link" href="#about">MORE ABOUT ME <span>→</span></a></div></div>
+    </section>
+
+    <section class="space-map section" id="space-map" aria-labelledby="space-map-title">
+      <div class="section-head reveal">
+        <div><p class="eyebrow">01.5 / THE CONSTELLATION</p><h2 id="space-map-title">EXPLORE<br><em>THE SPACE</em></h2></div>
+        <p>A visual guide to the places<br>inside Heaven’s Space.</p>
+      </div>
+      <div class="map-shell reveal">
+        <div class="map-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="orbit-ring orbit-home" aria-hidden="true"></div>
+        <div class="orbit-ring orbit-work" aria-hidden="true"></div>
+        <div class="orbit-ring orbit-about" aria-hidden="true"></div>
+        <div class="orbit-ring orbit-contact" aria-hidden="true"></div>
+        <div class="space-core" aria-label="Heaven's Space, the center of the portfolio universe"><span>HEAVEN'S<br>SPACE</span><i aria-hidden="true"></i></div>
+        <div class="map-node node-home">
+          <a class="map-location" href="#top" aria-label="Go to Home. The entrance to Heaven’s Space." data-map-target="home">
+            <span class="map-orb" aria-hidden="true"><i></i></span><span class="map-label">HOME</span><span class="map-description">The entrance to Heaven’s Space.</span><span class="map-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="map-node node-work">
+          <a class="map-location" href="#work" aria-label="Go to Work. Explore projects and websites." data-map-target="work">
+            <span class="map-orb" aria-hidden="true"><i></i></span><span class="map-label">WORK</span><span class="map-description">Projects, experiments, and websites.</span><span class="map-arrow" aria-hidden="true">↘</span>
+          </a>
+        </div>
+        <div class="map-node node-about">
+          <a class="map-location" href="#about" aria-label="Go to About. Meet the person behind the space." data-map-target="about">
+            <span class="map-orb" aria-hidden="true"><i></i></span><span class="map-label">ABOUT</span><span class="map-description">The person behind the space.</span><span class="map-arrow" aria-hidden="true">↘</span>
+          </a>
+        </div>
+        <div class="map-node node-contact">
+          <a class="map-location" href="#contact" aria-label="Go to Contact. Start a conversation." data-map-target="contact">
+            <span class="map-orb" aria-hidden="true"><i></i></span><span class="map-label">CONTACT</span><span class="map-description">An open door for new ideas.</span><span class="map-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <p class="map-caption">SELECT A LOCATION TO CONTINUE <span>·</span> 04 AREAS / 01 SPACE</p>
+      </div>
+    </section>
+
+    <section class="work section" id="work">
+      <div class="section-head reveal"><div><p class="eyebrow">02 / THE ARCHIVE</p><h2>MY <em>WORK</em></h2></div><p>Things I've built<br>and brought into reality.</p></div>
+      <div class="filters reveal" role="group" aria-label="Filter projects"><button class="active" data-filter="all">ALL</button><button data-filter="web development">WEB DEVELOPMENT</button><button data-filter="web design">WEB DESIGN</button><button data-filter="personal">PERSONAL</button><button data-filter="school">SCHOOL</button></div>
+      <div class="project-grid" id="project-grid"></div>
+    </section>
+
+    <section class="about-preview section reveal"><p class="eyebrow">03 / THE PERSON</p><div class="split-heading"><h2>CURIOUS<br>BY <em>NATURE.</em></h2><div><p>I’m Cedrick — a student developer from Manila who likes making interactive websites, experimental projects, and things that feel a little different.</p><a class="text-link" href="#about">MORE ABOUT ME <span>→</span></a></div></div></section>
+    <section class="about-page section" id="about"><p class="eyebrow">ABOUT / THE PERSON BEHIND THE SPACE</p><div class="bio"><div class="facts"><p><span>NAME</span>Cedrick Yosh C. Pereyra</p><p><span>AGE</span>19</p><p><span>LOCATION</span>Manila, Philippines</p><p><span>CURRENT</span>2nd Year College Student</p></div><div class="bio-copy"><h2>STARTING WITH<br>AN <em>IDEA.</em></h2><p>I became interested in development around 11th grade. I started making working websites in July 2026 and have kept developing since then.</p><p>I’m fascinated by how websites work, and I wanted to make something I could call my own.</p><p>Creative · Thorough · Collaborative</p></div></div></section>
+    <section class="contact-cta section reveal"><p class="eyebrow">04 / OPEN INVITATION</p><h2>HAVE AN IDEA<br>IN MIND?</h2><a class="outline-button" href="#contact">LET'S CREATE SOMETHING <span>↗</span></a></section>
+    <section class="contact-page section" id="contact"><p class="eyebrow">CONTACT / LET'S CREATE SOMETHING</p><div class="contact-layout"><form id="contact-form" novalidate><label>Name<input name="name" autocomplete="name" maxlength="100" required placeholder="What's your name?" aria-describedby="name-error"><span class="field-error" id="name-error" data-error="name"></span></label><label>Email<input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="Where can I reach you?" aria-describedby="email-error"><span class="field-error" id="email-error" data-error="email"></span></label><label>Subject<input name="subject" maxlength="160" required placeholder="What's this about?" aria-describedby="subject-error"><span class="field-error" id="subject-error" data-error="subject"></span></label><label>Message<textarea name="message" rows="5" maxlength="5000" required placeholder="Tell me what's on your mind..." aria-describedby="message-error"></textarea><span class="field-error" id="message-error" data-error="message"></span></label><div class="form-honeypot" aria-hidden="true"><label>Leave this blank<input name="website" tabindex="-1" autocomplete="off"></label></div><button class="outline-button" type="submit">SEND MESSAGE <span>→</span></button><p class="form-status" role="status" aria-live="polite"></p></form><aside><p class="eyebrow">CURRENTLY OPEN TO</p><p>Collaborations · Student Projects · Interesting Ideas</p><p><a href="mailto:cedrickyoshpereyra@gmail.com">cedrickyoshpereyra@gmail.com</a></p></aside></div></section>
+    <section class="project-view section" id="project-view" hidden></section>
+  </main>
+  <footer class="site-footer"><div><a class="brand" href="index.html">HEAVEN'S SPACE</a><p>Building ideas into reality.</p></div><div class="footer-links"><a href="#about">ABOUT</a><a href="#contact">CONTACT</a><span>© <span id="year"></span> CEDRICK</span></div><div class="socials"><a href="https://github.com/Heaven0318" target="_blank" rel="noreferrer">GITHUB</a><a href="https://www.instagram.com/07.heaven_/" target="_blank" rel="noreferrer">INSTAGRAM</a><span>FACEBOOK — CURRENTLY NOT AVAILABLE</span></div></footer>
+  <script src="js/config.js"></script><script src="js/projects.js"></script><script src="js/main.js"></script>
+</body></html>

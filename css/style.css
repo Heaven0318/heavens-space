@@ -1021,11 +1021,11 @@ to {
 /* Animate the existing work preview shapes without changing their resting design. */
 :where(.project-card.reveal.visible) .project-visual:before,
 .project-visual.reveal.visible:before {
-  animation:work-preview-enter .9s var(--ease-spring) both
+  animation:work-preview-enter .9s var(--ease-spring)
 }
 :where(.project-card.reveal.visible) .project-visual:after,
 .project-visual.reveal.visible:after {
-  animation:work-preview-orb-enter .75s .12s var(--ease-spring) both
+  animation:work-preview-orb-enter .75s .12s var(--ease-spring)
 }
 .project-card:hover .project-visual:before,
 .project-visual:hover:before,

@@ -10,6 +10,9 @@
   const inboxStatus = document.getElementById('inbox-status');
   const list = document.getElementById('message-list');
   const logoutButton = document.getElementById('logout');
+  const searchInput = document.getElementById('search');
+  const clearSearchButton = document.getElementById('clear-search');
+  const markAllReadButton = document.getElementById('mark-all-read');
   let session = null;
   let messages = [];
 
@@ -67,6 +70,9 @@
   }
   async function loadMessages() {
     if (!session) return;
+    const refreshButton = document.getElementById('refresh');
+    refreshButton.disabled = true;
+    refreshButton.classList.add('refreshing');
     inboxStatus.textContent = 'Loading messages…';
     try {
       await refreshToken();
@@ -74,32 +80,56 @@
       render();
       inboxStatus.textContent = `${messages.length} message${messages.length === 1 ? '' : 's'} loaded${messages.length === 500 ? ' (showing newest 500)' : ''}.`;
     } catch (error) { if (session) inboxStatus.textContent = `Could not load messages: ${error.message}`; }
+    finally { refreshButton.disabled = false; refreshButton.classList.remove('refreshing'); }
   }
   function render() {
-    const search = document.getElementById('search').value.trim().toLowerCase();
+    const search = searchInput.value.trim().toLowerCase();
     const filter = document.getElementById('filter').value;
+    const sort = document.getElementById('sort').value;
+    const activeMessages = messages.filter((item) => !item.is_archived);
+    const unreadMessages = activeMessages.filter((item) => !item.is_read);
+    const archivedMessages = messages.filter((item) => item.is_archived);
+    document.getElementById('total-count').textContent = String(messages.length);
+    document.getElementById('unread-count').textContent = String(unreadMessages.length);
+    document.getElementById('archived-count').textContent = String(archivedMessages.length);
+    markAllReadButton.hidden = unreadMessages.length === 0;
+    clearSearchButton.hidden = !search;
     const visible = messages.filter((item) => {
-      const matches = [item.name, item.email, item.subject, item.message].some((part) => part.toLowerCase().includes(search));
+      const matches = [item.name, item.email, item.subject, item.message].some((part) => (part || '').toLowerCase().includes(search));
       return matches && (filter === 'archived' ? item.is_archived : !item.is_archived && (filter === 'all' || (filter === 'read' ? item.is_read : !item.is_read)));
     });
+    visible.sort((a, b) => (new Date(a.created_at) - new Date(b.created_at)) * (sort === 'oldest' ? 1 : -1));
     list.replaceChildren();
-    if (!visible.length) { const empty = document.createElement('p'); empty.textContent = 'No messages match this view.'; list.append(empty); return; }
-    visible.forEach((item) => {
+    if (!visible.length) {
+      const empty = document.createElement('div'); empty.className = 'message-list-empty';
+      const title = document.createElement('strong');
+      title.textContent = messages.length ? 'Nothing in this view' : 'Your inbox is clear';
+      const detail = document.createElement('span');
+      detail.textContent = messages.length ? 'Try another filter or search for a different phrase.' : 'New messages will show up here when someone reaches out.';
+      empty.append(title, detail); list.append(empty); return;
+    }
+    visible.forEach((item, index) => {
       const card = document.createElement('article');
       card.className = `message ${item.is_read ? '' : 'unread'} ${item.is_archived ? 'archived' : ''}`;
+      card.style.setProperty('--card-index', String(Math.min(index, 8)));
       const head = document.createElement('div'); head.className = 'message-head';
       const title = document.createElement('h2'); title.textContent = item.subject;
       const date = document.createElement('time'); date.className = 'meta'; date.dateTime = item.created_at; date.textContent = new Date(item.created_at).toLocaleString();
       head.append(title, date);
       const sender = document.createElement('p'); sender.className = 'meta'; sender.textContent = `${item.name} · ${item.email}`;
-      const body = document.createElement('p'); body.className = 'body'; body.textContent = item.message;
+      const body = document.createElement('p'); body.className = 'body'; body.textContent = item.message || '';
       const actions = document.createElement('div'); actions.className = 'actions';
       const action = (label, callback) => { const button = document.createElement('button'); button.textContent = label; button.addEventListener('click', callback); actions.append(button); };
       action(item.is_read ? 'MARK UNREAD' : 'MARK READ', () => update(item, { is_read: !item.is_read }));
       action(item.is_archived ? 'RESTORE' : 'ARCHIVE', () => update(item, { is_archived: !item.is_archived }));
       action('DELETE', () => remove(item));
+      const reply = document.createElement('a'); reply.className = 'actions-button reply-action';
+      reply.href = `mailto:${encodeURIComponent(item.email)}?subject=${encodeURIComponent(`Re: ${item.subject}`)}`;
+      reply.textContent = 'REPLY ↗'; reply.setAttribute('aria-label', `Reply to ${item.name}`);
+      actions.append(reply);
       card.append(head, sender, body, actions); list.append(card);
     });
+    inboxStatus.textContent = `Showing ${visible.length} of ${messages.length} message${messages.length === 1 ? '' : 's'}.`;
   }
   async function update(item, changes) {
     try {
@@ -115,6 +145,21 @@
       await api(`/rest/v1/contact_messages?id=eq.${encodeURIComponent(item.id)}`, { method: 'DELETE' });
       messages = messages.filter((entry) => entry.id !== item.id); render(); inboxStatus.textContent = 'Message deleted.';
     } catch (error) { if (session) inboxStatus.textContent = `Delete failed: ${error.message}`; }
+  }
+  async function markAllRead() {
+    const unread = messages.filter((item) => !item.is_read && !item.is_archived);
+    if (!unread.length) return;
+    markAllReadButton.disabled = true;
+    inboxStatus.textContent = `Marking ${unread.length} message${unread.length === 1 ? '' : 's'} as read…`;
+    try {
+      await refreshToken();
+      await api('/rest/v1/contact_messages?is_read=eq.false&is_archived=eq.false', {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify({ is_read: true })
+      });
+      unread.forEach((item) => { item.is_read = true; });
+      render(); inboxStatus.textContent = `${unread.length} message${unread.length === 1 ? '' : 's'} marked as read.`;
+    } catch (error) { if (session) inboxStatus.textContent = `Could not update messages: ${error.message}`; }
+    finally { markAllReadButton.disabled = false; }
   }
   document.getElementById('login-form').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -189,9 +234,20 @@
     try { if (session) await api('/auth/v1/logout', { method: 'POST' }); } catch { /* local session is cleared regardless */ }
     showLogin('Signed out.');
   });
-  document.getElementById('search').addEventListener('input', render);
+  searchInput.addEventListener('input', render);
   document.getElementById('filter').addEventListener('change', render);
+  document.getElementById('sort').addEventListener('change', render);
   document.getElementById('refresh').addEventListener('click', loadMessages);
+  clearSearchButton.addEventListener('click', () => { searchInput.value = ''; render(); searchInput.focus(); });
+  markAllReadButton.addEventListener('click', markAllRead);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+      event.preventDefault(); searchInput.focus();
+    }
+    if (event.key === 'Escape' && document.activeElement === searchInput && searchInput.value) {
+      searchInput.value = ''; render();
+    }
+  });
   const authParams = new URLSearchParams(window.location.hash.slice(1));
   const authType = authParams.get('type');
   const hashAccessToken = authParams.get('access_token');

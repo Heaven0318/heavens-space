@@ -82,10 +82,9 @@ function projectCard(project) {
   const number = String(projects.indexOf(project) + 1).padStart(2, '0');
 
   return `
-    <a class="project-card" href="#project=${project.slug}" data-category="${project.category}">
-      <div class="project-visual reveal ${project.image}">
+    <a class="project-card reveal" href="#project=${project.slug}" data-category="${project.category}">
+      <div class="project-visual ${project.image}">
         <span class="project-index">${number}</span>
-        <span class="project-orbit" aria-hidden="true"></span>
       </div>
       <div class="project-meta">
         <div>

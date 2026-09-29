@@ -638,6 +638,10 @@ input::placeholder,textarea::placeholder {
 .contact-layout .outline-button {
   margin-top:28px
 }
+#contact-form input:focus-visible,
+#contact-form textarea:focus-visible {
+  outline-offset:0
+}
 .contact-layout aside {
   color:var(--muted)
 }

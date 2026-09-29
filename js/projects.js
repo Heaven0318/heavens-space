@@ -7,7 +7,7 @@
 const projects = [
   {
     title: 'Earrings Project', slug: 'earrings-project', category: 'personal',
-    type: 'Personal Website', image: 'earrings', featured: true,
+    type: 'Personal Website', image: 'earrings', previewImage: 'assets/earrings-project-preview.png', featured: true,
     description: 'A personal visual website for an earrings project, combining product presentation with a simple interactive experience.',
     liveUrl: 'https://heaven0318.github.io/earrings-project-2/',
     technologies: ['HTML', 'CSS', 'JavaScript', 'MP3 asset'],
@@ -20,7 +20,7 @@ const projects = [
   },
   {
     title: 'WebSteps', slug: 'websteps', category: 'school web development',
-    type: 'School Project', image: 'websteps',
+    type: 'School Project', image: 'websteps', previewImage: 'assets/websteps-preview.png',
     description: 'An interactive learning roadmap for HTML, CSS, and JavaScript, with guided lessons, hands-on projects, quizzes, and progress tracking.',
     liveUrl: 'https://heaven0318.github.io/WebSteps/',
     sourceUrl: 'https://github.com/Heaven0318/WebSteps',

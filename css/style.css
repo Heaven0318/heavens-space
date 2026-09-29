@@ -447,19 +447,15 @@ h2 {
   aspect-ratio:1;
   left:20%;
   top:10%;
-  transition:transform .6s var(--ease)
+  transition:transform .8s var(--ease-spring)
 }
 .project-visual:after {
   width:25%;
   left:50%;
   top:40%;
-  background:var(--fg)
-}
-.project-card:hover .project-visual:before {
-  transform:scale(1.12) rotate(15deg)
-}
-.project-card:hover .project-visual:after {
-  transform:translate(15px,-15px)
+  background:var(--fg);
+  transform-origin:-10% 21%;
+  transition:transform 3.2s cubic-bezier(.3,.7,.2,1)
 }
 .project-index {
   position:absolute;
@@ -1034,13 +1030,12 @@ to {
 .project-card:hover .project-visual:before,
 .project-visual:hover:before,
 .project-card:focus-visible .project-visual:before {
-  animation:work-preview-ring-hover 1.8s ease-in-out infinite alternate
+  transform:scale(1.2)
 }
 .project-card:hover .project-visual:after,
 .project-visual:hover:after,
 .project-card:focus-visible .project-visual:after {
-  transform-origin:-10% 21%;
-  animation:work-preview-orb-hover 3.2s linear infinite
+  transform:rotate(360deg) translate(39%,19%)
 }
 @keyframes work-preview-enter {
   from { opacity:.45;transform:scale(.94) rotate(-7deg) }
@@ -1049,14 +1044,6 @@ to {
 @keyframes work-preview-orb-enter {
   from { opacity:.5;transform:translateY(10px) scale(.84) }
   to { opacity:1;transform:none }
-}
-@keyframes work-preview-ring-hover {
-  from { transform:scale(1.04) }
-  to { transform:scale(1.2) }
-}
-@keyframes work-preview-orb-hover {
-  from { transform:rotate(0deg) translate(39%,19%) }
-  to { transform:rotate(360deg) translate(39%,19%) }
 }
 @media(prefers-reduced-motion:reduce) {
   .project-card.reveal.visible .project-visual:before,

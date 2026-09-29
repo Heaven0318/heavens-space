@@ -17,5 +17,19 @@ const projects = [
     challenges: 'Balancing the visual presentation with a clear and usable layout.',
     result: 'A working personal website that presents the earrings project as an interactive digital experience.',
     reflection: 'This project helped me practice combining structure, styling, behavior, and media in one website.'
+  },
+  {
+    title: 'WebSteps', slug: 'websteps', category: 'school web development',
+    type: 'School Project', image: 'websteps',
+    description: 'An interactive learning roadmap for HTML, CSS, and JavaScript, with guided lessons, hands-on projects, quizzes, and progress tracking.',
+    liveUrl: 'https://heaven0318.github.io/WebSteps/',
+    sourceUrl: 'https://github.com/Heaven0318/WebSteps',
+    technologies: ['HTML', 'CSS', 'JavaScript', 'IndexedDB'],
+    features: ['16 modules and 48 lessons', 'In-browser code playground and preview', 'Guided projects and quizzes', 'Local progress tracking and backup'],
+    idea: 'Make learning web development feel like a clear, practical journey from the basics to building and publishing projects.',
+    process: 'I organized the curriculum into a roadmap and built interactive lessons, a code playground, quizzes, and project checks so learners can practice as they progress.',
+    challenges: 'Bringing lessons, editable code, feedback, and progress tracking together in one easy-to-follow experience.',
+    result: 'A browser-based learning app that lets visitors work through web development lessons and build projects at their own pace.',
+    reflection: 'WebSteps combines teaching and development by turning web concepts into exercises people can try directly in the browser.'
   }
 ];

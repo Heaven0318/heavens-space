@@ -178,6 +178,7 @@ function renderProjectPage() {
       </div>
       <div class="project-sections">
         ${project.liveUrl ? `<div><p class="eyebrow">LIVE WEBSITE</p><p><a class="text-link" href="${project.liveUrl}" target="_blank" rel="noreferrer">OPEN PROJECT <span>↗</span></a></p></div>` : ''}
+        ${project.sourceUrl ? `<div><p class="eyebrow">SOURCE CODE</p><p><a class="text-link" href="${project.sourceUrl}" target="_blank" rel="noreferrer">VIEW ON GITHUB <span>↗</span></a></p></div>` : ''}
         ${projectDetail('OVERVIEW', project.description)}
         ${projectDetail('IDEA', project.idea)}
         ${projectDetail('FEATURES', project.features.join('<br>'))}

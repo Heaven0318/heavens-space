@@ -114,9 +114,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible 
   animation:logo-orbit .85s var(--ease-spring) both;
   filter:drop-shadow(0 0 5px color-mix(in srgb,var(--fg) 60%,transparent))
 }
-.light .brand-logo img { filter:invert(1) }
+.light .brand-logo img { filter:brightness(0) }
 .light .brand-with-logo:hover .brand-logo img,.light .brand-with-logo:focus-visible .brand-logo img {
-  filter:invert(1) drop-shadow(0 0 5px color-mix(in srgb,var(--fg) 45%,transparent))
+  filter:brightness(0) drop-shadow(0 0 5px color-mix(in srgb,var(--fg) 35%,transparent))
 }
 .brand-with-logo:hover .brand-logo:before,.brand-with-logo:hover .brand-logo:after,.brand-with-logo:focus-visible .brand-logo:before,.brand-with-logo:focus-visible .brand-logo:after {
   animation:logo-rings .85s var(--ease-spring) both

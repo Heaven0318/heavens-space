@@ -907,14 +907,17 @@ input::placeholder,textarea::placeholder {
   left:45%;
   background:var(--fg)
 }
+.project-detail-visual.has-image-preview {
+  aspect-ratio:auto;
+  background:#111
+}
 .project-detail-visual.has-image-preview img {
-  position:absolute;
+  position:relative;
   z-index:0;
-  inset:0;
   display:block;
   width:100%;
-  height:100%;
-  object-fit:cover
+  height:auto;
+  object-fit:contain
 }
 .project-detail-visual.has-image-preview:before,
 .project-detail-visual.has-image-preview:after { content:none }

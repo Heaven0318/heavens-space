@@ -191,7 +191,7 @@ function renderProjectPage() {
     <section class="project-detail section">
       <div class="project-detail-visual ${project.image}${project.previewImage ? ' has-image-preview' : ''}">
         <span class="project-index">PREVIEW / ${project.title.toUpperCase()}</span>
-        ${project.previewImage ? `<img src="${project.previewImage}" alt="Screenshot of ${project.title}" loading="lazy">` : ''}
+        ${project.previewImage ? `<img src="${project.previewImage}" alt="Screenshot of ${project.title}" width="${project.previewWidth}" height="${project.previewHeight}" loading="lazy">` : ''}
       </div>
       <div class="project-sections">
         ${project.liveUrl ? `<div><p class="eyebrow">LIVE WEBSITE</p><p><a class="text-link" href="${project.liveUrl}" target="_blank" rel="noreferrer">OPEN PROJECT <span>↗</span></a></p></div>` : ''}

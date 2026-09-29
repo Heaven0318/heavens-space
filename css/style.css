@@ -71,6 +71,62 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible 
   font:600 13px var(--display);
   letter-spacing:.04em
 }
+.brand-with-logo {
+  display:inline-flex;
+  align-items:center;
+  gap:8px
+}
+.brand-logo {
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:30px;
+  height:30px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:50%;
+  transition:border-color .4s var(--ease-spring),background .4s var(--ease-spring),transform .5s var(--ease-spring)
+}
+.brand-logo:before,.brand-logo:after {
+  content:'';
+  position:absolute;
+  border:1px solid var(--fg);
+  border-radius:50%;
+  opacity:0;
+  pointer-events:none
+}
+.brand-logo:before { width:38px;height:14px;transform:rotate(-25deg) }
+.brand-logo:after { width:14px;height:38px;transform:rotate(28deg) }
+.brand-logo img {
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  transform:scale(1.35);
+  transition:transform .55s var(--ease-spring),filter .45s var(--ease)
+}
+.brand-with-logo:hover .brand-logo,.brand-with-logo:focus-visible .brand-logo {
+  border-color:var(--fg);
+  background:color-mix(in srgb,var(--fg) 8%,transparent);
+  transform:rotate(-8deg) scale(1.08)
+}
+.brand-with-logo:hover .brand-logo img,.brand-with-logo:focus-visible .brand-logo img {
+  animation:logo-orbit .85s var(--ease-spring) both;
+  filter:drop-shadow(0 0 5px color-mix(in srgb,var(--fg) 60%,transparent))
+}
+.brand-with-logo:hover .brand-logo:before,.brand-with-logo:hover .brand-logo:after,.brand-with-logo:focus-visible .brand-logo:before,.brand-with-logo:focus-visible .brand-logo:after {
+  animation:logo-rings .85s var(--ease-spring) both
+}
+@keyframes logo-orbit {
+  0% { transform:scale(1.35) rotate(0deg) }
+  45% { transform:scale(1.62) rotate(150deg) }
+  72% { transform:scale(1.42) rotate(325deg) }
+  100% { transform:scale(1.35) rotate(360deg) }
+}
+@keyframes logo-rings {
+  0% { opacity:0;transform:scale(.25) rotate(-25deg) }
+  45% { opacity:.8;transform:scale(1.15) rotate(45deg) }
+  100% { opacity:0;transform:scale(1.45) rotate(120deg) }
+}
 .desktop-nav {
   display:flex;
   align-items:center;

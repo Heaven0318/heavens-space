@@ -1007,31 +1007,48 @@ to {
   .node-home { left:50%;top:15%; }.node-work { left:50%;top:38%; }.node-about { left:50%;top:61%; }.node-contact { left:50%;top:84%; }
 }
 
-/* Project artwork and motion stay inside each preview. */
+/* Keep the project preview simple: a quiet orbit with one focal point. */
 .project-visual.reveal {
   transition:opacity .7s var(--ease),transform .7s var(--ease)
 }
-.project-visual:before,.project-visual:after { content:none }
 .project-visual {
-  background-color:#101010;
-  background-image:radial-gradient(ellipse at 50% 48%,color-mix(in srgb,var(--fg) 7%,transparent),transparent 62%),linear-gradient(color-mix(in srgb,var(--line) 38%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--line) 38%,transparent) 1px,transparent 1px);
-  background-size:auto,56px 56px,56px 56px
+  background-color:#111110;
+  background-image:radial-gradient(ellipse at center,color-mix(in srgb,var(--fg) 4%,transparent),transparent 68%)
 }
 .light .project-visual {
-  background-color:#edece8;
-  background-image:radial-gradient(ellipse at 50% 48%,color-mix(in srgb,var(--fg) 6%,transparent),transparent 62%),linear-gradient(color-mix(in srgb,var(--line) 42%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--line) 42%,transparent) 1px,transparent 1px)
+  background-color:#d5d3cd;
+  background-image:radial-gradient(ellipse at center,color-mix(in srgb,var(--fg) 4%,transparent),transparent 68%)
 }
-.project-art { position:absolute;inset:0;z-index:1;overflow:hidden;display:grid;place-items:center;background:radial-gradient(ellipse at center,color-mix(in srgb,var(--fg) 7%,transparent),transparent 56%) }
-.art-ring { position:absolute;left:50%;top:50%;border:1px solid color-mix(in srgb,var(--fg) 34%,transparent);border-radius:50%;transform:translate(-50%,-50%) }
-.art-ring-inner { width:34%;height:58%;transform:translate(-50%,-50%) rotate(32deg) }
-.art-ring-outer { width:64%;height:35%;border-style:dashed;opacity:.66;transform:translate(-50%,-50%) rotate(-18deg) }
-.art-core { position:absolute;left:50%;top:50%;width:9%;aspect-ratio:1;border:1px solid var(--fg);border-radius:50%;background:radial-gradient(circle at 34% 30%,var(--fg),color-mix(in srgb,var(--fg) 48%,var(--bg)) 46%,var(--bg) 100%);box-shadow:0 0 28px color-mix(in srgb,var(--fg) 20%,transparent);opacity:.9;transform:translate(-50%,-50%) }
-.art-crosshair { position:absolute;left:50%;top:50%;width:74%;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--fg) 24%,transparent),transparent);transform:translate(-50%,-50%) rotate(24deg) }
-.project-visual.reveal.visible .art-ring-inner { animation:preview-ring-in .9s var(--ease-spring) both }
-.project-visual.reveal.visible .art-core { animation:preview-core-in .85s var(--ease-spring) both }
-@keyframes preview-ring-in { from{opacity:0;transform:translate(-50%,-50%) rotate(32deg) scale(.76)}to{opacity:1;transform:translate(-50%,-50%) rotate(32deg) scale(1)} }
-@keyframes preview-core-in { from{opacity:0;transform:translate(-50%,-50%) scale(.48)}to{opacity:.9;transform:translate(-50%,-50%) scale(1)} }
-.coming-soon .project-index { z-index:2 }
+.project-visual:before {
+  content:'';
+  position:absolute;
+  z-index:1;
+  left:50%;
+  top:50%;
+  width:38%;
+  height:64%;
+  border:1px solid color-mix(in srgb,var(--fg) 34%,transparent);
+  border-radius:50%;
+  transform:translate(-50%,-50%) rotate(28deg);
+  transition:transform .65s var(--ease-spring)
+}
+.project-visual:after {
+  content:'';
+  position:absolute;
+  z-index:2;
+  left:50%;
+  top:50%;
+  width:12%;
+  aspect-ratio:1;
+  border:1px solid color-mix(in srgb,var(--fg) 82%,transparent);
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--fg),color-mix(in srgb,var(--fg) 55%,var(--bg)) 66%);
+  box-shadow:0 0 18px color-mix(in srgb,var(--fg) 16%,transparent);
+  transform:translate(-50%,-50%);
+  transition:transform .4s var(--ease-spring)
+}
+.project-card:hover .project-visual:before { transform:translate(-50%,-50%) rotate(38deg) scale(1.04) }
+.project-card:hover .project-visual:after { transform:translate(-50%,-50%) scale(1.12) }
 .project-orbit {
   position:absolute;
   z-index:3;
@@ -1039,11 +1056,12 @@ to {
   top:50%;
   width:76%;
   height:50%;
-  border:1px solid color-mix(in srgb,var(--fg) 62%,transparent);
+  border:1px dashed color-mix(in srgb,var(--fg) 46%,transparent);
   border-radius:50%;
   opacity:0;
   pointer-events:none;
-  transform:translate(-50%,-50%) rotate(-24deg)
+  transform:translate(-50%,-50%) rotate(-24deg);
+  transition:opacity .25s ease
 }
 .project-orbit:after {
   content:'';
@@ -1058,8 +1076,8 @@ to {
   transform:translateX(-50%)
 }
 .project-visual:hover .project-orbit {
-  opacity:.9;
-  animation:work-orbit 2.4s linear infinite
+  opacity:1;
+  animation:work-orbit 2s linear infinite
 }
 @keyframes work-orbit {
   from { transform:translate(-50%,-50%) rotate(-24deg) }
@@ -1067,7 +1085,5 @@ to {
 }
 @media(prefers-reduced-motion:reduce) {
   .project-visual.reveal { opacity:1;transform:none }
-  .project-visual.reveal.visible .art-core { animation:none }
-  .project-visual.reveal.visible .art-ring-inner { animation:none }
   .project-visual:hover .project-orbit { animation:none;opacity:.75 }
 }

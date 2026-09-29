@@ -80,13 +80,11 @@ function setupScrollReveal() {
 
 function projectCard(project) {
   const number = String(projects.indexOf(project) + 1).padStart(2, '0');
-  const artwork = `<div class="project-art" aria-hidden="true"><span class="art-ring art-ring-inner"></span><span class="art-ring art-ring-outer"></span><span class="art-core"></span><span class="art-crosshair"></span></div>`;
 
   return `
     <a class="project-card" href="#project=${project.slug}" data-category="${project.category}">
       <div class="project-visual reveal ${project.image}">
         <span class="project-index">${number}</span>
-        ${artwork}
         <span class="project-orbit" aria-hidden="true"></span>
       </div>
       <div class="project-meta">

@@ -1039,7 +1039,7 @@ to {
 .project-card:hover .project-visual:after,
 .project-visual:hover:after,
 .project-card:focus-visible .project-visual:after {
-  transform-origin:-60% -44%;
+  transform-origin:-10% 21%;
   animation:work-preview-orb-hover 3.2s linear infinite
 }
 @keyframes work-preview-enter {
@@ -1055,8 +1055,8 @@ to {
   to { transform:scale(1.2) }
 }
 @keyframes work-preview-orb-hover {
-  from { transform:rotate(0deg) }
-  to { transform:rotate(360deg) }
+  from { transform:rotate(0deg) translate(39%,19%) }
+  to { transform:rotate(360deg) translate(39%,19%) }
 }
 @media(prefers-reduced-motion:reduce) {
   .project-card.reveal.visible .project-visual:before,

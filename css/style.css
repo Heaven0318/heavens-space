@@ -1007,28 +1007,75 @@ to {
   .node-home { left:50%;top:15%; }.node-work { left:50%;top:38%; }.node-about { left:50%;top:61%; }.node-contact { left:50%;top:84%; }
 }
 
-/* Keep new work motion inside each project preview. */
+/* Project artwork and motion stay inside each preview. */
 .project-visual.reveal {
   transition:opacity .7s var(--ease),transform .7s var(--ease)
 }
+.project-visual:before,.project-visual:after { content:none }
+.project-visual {
+  background-color:#101010;
+  background-image:radial-gradient(ellipse at 50% 48%,color-mix(in srgb,var(--fg) 7%,transparent),transparent 62%),linear-gradient(color-mix(in srgb,var(--line) 38%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--line) 38%,transparent) 1px,transparent 1px);
+  background-size:auto,56px 56px,56px 56px
+}
+.light .project-visual {
+  background-color:#edece8;
+  background-image:radial-gradient(ellipse at 50% 48%,color-mix(in srgb,var(--fg) 6%,transparent),transparent 62%),linear-gradient(color-mix(in srgb,var(--line) 42%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--line) 42%,transparent) 1px,transparent 1px)
+}
+.project-art { position:absolute;inset:0;z-index:1;overflow:hidden }
+.earrings-art { background:radial-gradient(ellipse at 50% 54%,color-mix(in srgb,var(--fg) 6%,transparent),transparent 48%) }
+.earrings-art .art-ring {
+  position:absolute;left:50%;top:50%;width:47%;height:65%;border:1px solid color-mix(in srgb,var(--fg) 24%,transparent);border-radius:50%;transform:translate(-50%,-50%) rotate(-28deg)
+}
+.earring { position:absolute;left:40%;top:28%;width:12%;height:37%;border:1px solid color-mix(in srgb,var(--fg) 82%,transparent);border-radius:50%;transform:rotate(-12deg);box-shadow:inset 0 0 18px color-mix(in srgb,var(--fg) 5%,transparent) }
+.earring:before { content:'';position:absolute;left:50%;top:-5px;width:7px;height:7px;border:1px solid var(--fg);border-radius:50%;background:var(--bg);transform:translateX(-50%) }
+.earring i { position:absolute;left:50%;bottom:-19px;width:28px;height:28px;border:1px solid var(--fg);border-radius:50%;background:radial-gradient(circle at 34% 30%,var(--fg),color-mix(in srgb,var(--fg) 32%,var(--bg)) 48%,var(--bg) 100%);box-shadow:0 0 24px color-mix(in srgb,var(--fg) 13%,transparent);transform:translateX(-50%) }
+.earring-two { left:53%;top:35%;height:30%;transform:rotate(13deg) scale(.82) }
+.earrings-art .art-caption { position:absolute;right:18px;bottom:16px;color:var(--muted);font:9px var(--body);letter-spacing:.16em }
+.websteps-art { display:grid;place-items:center;padding:28px }
+.roadmap-window { width:min(76%,510px);padding:clamp(15px,3vw,28px);border:1px solid color-mix(in srgb,var(--fg) 34%,transparent);background:color-mix(in srgb,var(--bg) 78%,transparent);box-shadow:0 18px 50px color-mix(in srgb,var(--bg) 35%,transparent);transform:rotate(-2deg) }
+.roadmap-heading,.roadmap-footer { display:flex;align-items:center;justify-content:space-between;color:var(--muted);font:9px var(--body);letter-spacing:.14em }
+.roadmap-heading b { color:var(--fg);font-weight:500 }
+.roadmap-track { position:relative;display:flex;align-items:center;justify-content:space-between;margin:clamp(18px,4vw,34px) 0 }
+.roadmap-line { position:absolute;left:10%;right:10%;top:14px;border-top:1px dashed color-mix(in srgb,var(--fg) 45%,transparent) }
+.roadmap-node { position:relative;z-index:1;display:grid;justify-items:center;gap:8px;color:var(--fg);font:10px var(--display);letter-spacing:.08em }
+.roadmap-node i { display:grid;width:29px;height:29px;place-items:center;border:1px solid var(--fg);border-radius:50%;background:var(--bg);font:9px var(--body);font-style:normal }
+.roadmap-node:last-child i { background:var(--fg);color:var(--bg) }
+.roadmap-footer { border-top:1px solid var(--line);padding-top:12px;font-size:8px }
+.coming-soon .project-index { z-index:2 }
 .project-orbit {
   position:absolute;
-  z-index:1;
+  z-index:3;
   left:50%;
   top:50%;
-  width:62%;
-  height:40%;
-  border:1px dashed color-mix(in srgb,var(--fg) 52%,transparent);
+  width:66%;
+  height:48%;
+  border:1px solid color-mix(in srgb,var(--fg) 62%,transparent);
   border-radius:50%;
   opacity:0;
   pointer-events:none;
-  transform:translate(-50%,-50%) rotate(-28deg) scale(.72)
+  transform:translate(-50%,-50%) rotate(-24deg)
+}
+.project-orbit:after {
+  content:'';
+  position:absolute;
+  left:50%;
+  top:-4px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--fg);
+  box-shadow:0 0 14px color-mix(in srgb,var(--fg) 65%,transparent);
+  transform:translateX(-50%)
 }
 .project-visual:hover .project-orbit {
-  animation:work-orbit 1.05s var(--ease-spring) both
+  opacity:.9;
+  animation:work-orbit 2.4s linear infinite
 }
 @keyframes work-orbit {
-  0% { opacity:0;transform:translate(-50%,-50%) rotate(-28deg) scale(.72) }
-  55% { opacity:.85;transform:translate(-50%,-50%) rotate(18deg) scale(1.08) }
-  100% { opacity:.48;transform:translate(-50%,-50%) rotate(0deg) scale(1) }
+  from { transform:translate(-50%,-50%) rotate(-24deg) }
+  to { transform:translate(-50%,-50%) rotate(336deg) }
+}
+@media(prefers-reduced-motion:reduce) {
+  .project-visual.reveal { opacity:1;transform:none }
+  .project-visual:hover .project-orbit { animation:none;opacity:.75 }
 }

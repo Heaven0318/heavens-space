@@ -82,9 +82,10 @@ function projectCard(project) {
   const number = String(projects.indexOf(project) + 1).padStart(2, '0');
 
   return `
-    <a class="project-card reveal" href="#project=${project.slug}" data-category="${project.category}">
-      <div class="project-visual ${project.image}">
+    <a class="project-card" href="#project=${project.slug}" data-category="${project.category}">
+      <div class="project-visual reveal ${project.image}">
         <span class="project-index">${number}</span>
+        <span class="project-orbit" aria-hidden="true"></span>
       </div>
       <div class="project-meta">
         <div>
@@ -99,9 +100,10 @@ function projectCard(project) {
 // These are presentation placeholders, not projects or routable detail pages.
 function comingSoonCard() {
   return `
-    <article class="project-card project-placeholder reveal">
-      <div class="project-visual coming-soon" aria-hidden="true">
+    <article class="project-card project-placeholder">
+      <div class="project-visual reveal coming-soon" aria-hidden="true">
         <span class="project-index">COMING SOON</span>
+        <span class="project-orbit"></span>
       </div>
       <div class="project-meta">
         <div>

@@ -1006,3 +1006,29 @@ to {
 @media(max-width:700px) and (prefers-reduced-motion:reduce) {
   .node-home { left:50%;top:15%; }.node-work { left:50%;top:38%; }.node-about { left:50%;top:61%; }.node-contact { left:50%;top:84%; }
 }
+
+/* Keep new work motion inside each project preview. */
+.project-visual.reveal {
+  transition:opacity .7s var(--ease),transform .7s var(--ease)
+}
+.project-orbit {
+  position:absolute;
+  z-index:1;
+  left:50%;
+  top:50%;
+  width:62%;
+  height:40%;
+  border:1px dashed color-mix(in srgb,var(--fg) 52%,transparent);
+  border-radius:50%;
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%,-50%) rotate(-28deg) scale(.72)
+}
+.project-visual:hover .project-orbit {
+  animation:work-orbit 1.05s var(--ease-spring) both
+}
+@keyframes work-orbit {
+  0% { opacity:0;transform:translate(-50%,-50%) rotate(-28deg) scale(.72) }
+  55% { opacity:.85;transform:translate(-50%,-50%) rotate(18deg) scale(1.08) }
+  100% { opacity:.48;transform:translate(-50%,-50%) rotate(0deg) scale(1) }
+}

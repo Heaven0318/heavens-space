@@ -80,11 +80,7 @@ function setupScrollReveal() {
 
 function projectCard(project) {
   const number = String(projects.indexOf(project) + 1).padStart(2, '0');
-  const artwork = project.image === 'earrings'
-    ? `<div class="project-art earrings-art" aria-hidden="true"><span class="art-ring"></span><span class="earring earring-one"><i></i></span><span class="earring earring-two"><i></i></span><span class="art-caption">FORM / OBJECT STUDY</span></div>`
-    : project.image === 'websteps'
-      ? `<div class="project-art websteps-art" aria-hidden="true"><div class="roadmap-window"><div class="roadmap-heading"><span>LEARNING PATH</span><b>01 — 03</b></div><div class="roadmap-track"><span class="roadmap-line"></span><span class="roadmap-node"><i>01</i><b>HTML</b></span><span class="roadmap-node"><i>02</i><b>CSS</b></span><span class="roadmap-node"><i>03</i><b>JS</b></span></div><div class="roadmap-footer"><span>STRUCTURE · STYLE · SCRIPT</span><span>↗</span></div></div></div>`
-      : '';
+  const artwork = `<div class="project-art" aria-hidden="true"><span class="art-ring art-ring-inner"></span><span class="art-ring art-ring-outer"></span><span class="art-core"></span><span class="art-crosshair"></span></div>`;
 
   return `
     <a class="project-card" href="#project=${project.slug}" data-category="${project.category}">

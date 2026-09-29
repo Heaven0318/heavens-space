@@ -1006,3 +1006,49 @@ to {
 @media(max-width:700px) and (prefers-reduced-motion:reduce) {
   .node-home { left:50%;top:15%; }.node-work { left:50%;top:38%; }.node-about { left:50%;top:61%; }.node-contact { left:50%;top:84%; }
 }
+
+/* Animate the existing work preview shapes without changing their resting design. */
+.project-card.reveal.visible .project-visual:before,
+.project-visual.reveal.visible:before {
+  animation:work-preview-enter .9s var(--ease-spring) both
+}
+.project-card.reveal.visible .project-visual:after,
+.project-visual.reveal.visible:after {
+  animation:work-preview-orb-enter .75s .12s var(--ease-spring) both
+}
+.project-card:hover .project-visual:before,
+.project-card:focus-visible .project-visual:before {
+  animation:work-preview-ring-hover 1.8s ease-in-out infinite alternate
+}
+.project-card:hover .project-visual:after,
+.project-card:focus-visible .project-visual:after {
+  animation:work-preview-orb-hover 2.4s ease-in-out infinite
+}
+@keyframes work-preview-enter {
+  from { opacity:.45;transform:scale(.94) rotate(-7deg) }
+  to { opacity:1;transform:none }
+}
+@keyframes work-preview-orb-enter {
+  from { opacity:.5;transform:translateY(10px) scale(.84) }
+  to { opacity:1;transform:none }
+}
+@keyframes work-preview-ring-hover {
+  from { transform:scale(1.04) rotate(8deg) }
+  to { transform:scale(1.12) rotate(15deg) }
+}
+@keyframes work-preview-orb-hover {
+  0%,100% { transform:translate(0,0) scale(1) }
+  25% { transform:translate(12px,-12px) scale(1.04) }
+  50% { transform:translate(15px,-2px) scale(1.07) }
+  75% { transform:translate(8px,8px) scale(1.03) }
+}
+@media(prefers-reduced-motion:reduce) {
+  .project-card.reveal.visible .project-visual:before,
+  .project-visual.reveal.visible:before,
+  .project-card.reveal.visible .project-visual:after,
+  .project-visual.reveal.visible:after,
+  .project-card:hover .project-visual:before,
+  .project-card:focus-visible .project-visual:before,
+  .project-card:hover .project-visual:after,
+  .project-card:focus-visible .project-visual:after { animation:none }
+}

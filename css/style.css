@@ -81,9 +81,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible 
   position:relative;
   display:grid;
   place-items:center;
-  width:38px;
-  height:38px;
-  flex:0 0 38px;
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
   overflow:visible;
   transition:transform .5s var(--ease-spring)
 }
@@ -99,10 +99,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible 
 .brand-logo:after { width:14px;height:38px;transform:rotate(28deg) }
 .brand-logo img {
   display:block;
-  width:38px;
-  height:38px;
-  max-width:38px;
-  max-height:38px;
+  width:44px;
+  height:44px;
+  max-width:44px;
+  max-height:44px;
   object-fit:contain;
   transform:scale(1);
   transition:transform .55s var(--ease-spring),filter .45s var(--ease)
@@ -113,6 +113,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible 
 .brand-with-logo:hover .brand-logo img,.brand-with-logo:focus-visible .brand-logo img {
   animation:logo-orbit .85s var(--ease-spring) both;
   filter:drop-shadow(0 0 5px color-mix(in srgb,var(--fg) 60%,transparent))
+}
+.light .brand-logo img { filter:invert(1) }
+.light .brand-with-logo:hover .brand-logo img,.light .brand-with-logo:focus-visible .brand-logo img {
+  filter:invert(1) drop-shadow(0 0 5px color-mix(in srgb,var(--fg) 45%,transparent))
 }
 .brand-with-logo:hover .brand-logo:before,.brand-with-logo:hover .brand-logo:after,.brand-with-logo:focus-visible .brand-logo:before,.brand-with-logo:focus-visible .brand-logo:after {
   animation:logo-rings .85s var(--ease-spring) both

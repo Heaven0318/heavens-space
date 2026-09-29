@@ -1039,7 +1039,8 @@ to {
 .project-card:hover .project-visual:after,
 .project-visual:hover:after,
 .project-card:focus-visible .project-visual:after {
-  animation:work-preview-orb-hover 2.4s ease-in-out infinite
+  transform-origin:-60% -44%;
+  animation:work-preview-orb-hover 3.2s linear infinite
 }
 @keyframes work-preview-enter {
   from { opacity:.45;transform:scale(.94) rotate(-7deg) }
@@ -1050,14 +1051,12 @@ to {
   to { opacity:1;transform:none }
 }
 @keyframes work-preview-ring-hover {
-  from { transform:scale(1.04) rotate(8deg) }
-  to { transform:scale(1.12) rotate(15deg) }
+  from { transform:scale(1.04) }
+  to { transform:scale(1.2) }
 }
 @keyframes work-preview-orb-hover {
-  0%,100% { transform:translate(0,0) scale(1) }
-  25% { transform:translate(18px,-18px) scale(1.05) }
-  50% { transform:translate(24px,-3px) scale(1.09) }
-  75% { transform:translate(12px,14px) scale(1.04) }
+  from { transform:rotate(0deg) }
+  to { transform:rotate(360deg) }
 }
 @media(prefers-reduced-motion:reduce) {
   .project-card.reveal.visible .project-visual:before,

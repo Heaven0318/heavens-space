@@ -127,6 +127,21 @@ function renderProjects(filter = 'all') {
   setupScrollReveal();
 }
 
+function setupProjectNavigation() {
+  const grid = document.getElementById('project-grid');
+  if (!grid) return;
+
+  grid.addEventListener('click', (event) => {
+    const link = event.target.closest?.('a.project-card[href^="#project="]');
+    if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    event.preventDefault();
+    const route = link.getAttribute('href');
+    if (window.location.hash !== route) window.history.pushState(null, '', route);
+    renderProjectPage();
+  });
+}
+
 function setupProjectFilters() {
   document.querySelectorAll('[data-filter]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -392,6 +407,7 @@ function startSite() {
   setCurrentYear();
   setupMobileMenu();
   renderProjects();
+  setupProjectNavigation();
   setupProjectFilters();
   renderProjectPage();
   setupScrollReveal();
@@ -401,7 +417,7 @@ function startSite() {
   setupSpaceMap();
 
   // The page uses one HTML file. Reloading on a hash change keeps each view simple.
-  window.addEventListener('hashchange', () => {
+  const syncProjectRoute = () => {
     renderProjectPage();
 
     if (!window.location.hash.startsWith('#project=')) {
@@ -412,7 +428,9 @@ function startSite() {
       }
       document.title = "Heaven's Space — Student Developer";
     }
-  });
+  };
+  window.addEventListener('hashchange', syncProjectRoute);
+  window.addEventListener('popstate', syncProjectRoute);
 }
 
 startSite();

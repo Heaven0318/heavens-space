@@ -1023,11 +1023,11 @@ to {
 }
 
 /* Animate the existing work preview shapes without changing their resting design. */
-.project-card.reveal.visible .project-visual:before,
+:where(.project-card.reveal.visible) .project-visual:before,
 .project-visual.reveal.visible:before {
   animation:work-preview-enter .9s var(--ease-spring) both
 }
-.project-card.reveal.visible .project-visual:after,
+:where(.project-card.reveal.visible) .project-visual:after,
 .project-visual.reveal.visible:after {
   animation:work-preview-orb-enter .75s .12s var(--ease-spring) both
 }
